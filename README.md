@@ -256,6 +256,7 @@ By browsing the report you can find the lines that were not hit by the test. In 
 
 # To Do
 
+- [ ] Add functional coverage using the FC4SC library
 - [ ] Add randomization via CRAVE
 - [ ] Flow down the FIFO depth to the predictor
 - [ ] Finish the WB4 UVC which is lacking a slave driver
