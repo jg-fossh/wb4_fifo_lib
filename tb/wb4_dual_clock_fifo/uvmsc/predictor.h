@@ -83,7 +83,7 @@ public:
   UVM_COMPONENT_UTILS(predictor);
 
 
-    predictor(uvm::uvm_component_name name="predictor", int depth=127)
+    predictor(uvm::uvm_component_name name="predictor", int depth=128)
         : uvm::uvm_component(name), depth(depth),
           in_ap("in_ap"),
           out_ap("out_ap"),
