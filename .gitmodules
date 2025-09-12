@@ -4,3 +4,12 @@
 [submodule "sub/cdc_lib"]
 	path = sub/cdc_lib
 	url = git@github.com:jg-fossh/cdc_lib.git
+[submodule "sub/uvmsc_reset_generator"]
+	path = sub/uvmsc_reset_generator
+	url = git@github.com:jg-fossh/uvmsc_reset_generator.git
+[submodule "sub/uvmsc_wave_trace"]
+	path = sub/uvmsc_wave_trace
+	url = git@github.com:jg-fossh/uvmsc_wave_trace.git
+[submodule "sub/uvmsc_wb4_uvc"]
+	path = sub/uvmsc_wb4_uvc
+	url = git@github.com:jg-fossh/uvmsc_wb4_uvc.git
