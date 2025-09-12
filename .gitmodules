@@ -1,0 +1,6 @@
+[submodule "sub/generic_sbram"]
+	path = sub/generic_sbram
+	url = git@github.com:jg-fossh/generic_sbram.git
+[submodule "sub/cdc_lib"]
+	path = sub/cdc_lib
+	url = git@github.com:jg-fossh/cdc_lib.git
