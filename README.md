@@ -1,27 +1,36 @@
-# Purpose
+# Wishbone B4 FIFO Library
 
 The main focus of this project is provide and integrated example of `verilator`+`uvm-systemc`. It intents to 
  - Be close to what many engineers have seen when using SystemVerilog UVM. 
  - Simple(or minimal complexity), so it can be malleable and adaptable to other projects.
  - Feature complete(Self-Checking, monitoring, coverage, randomization).
 
-# Dependencies 
+## Getting Started
 
-- locv
+Clone the repo and be sure to pull in the submodules
+```
+git clone --recurse-submodules git@github.com:jg-fossh/wb4_fifo_lib.git
+```
+
+## Dependencies 
+
+- lcov
 - systemc
 - uvm-systemc
 - verilator
 - surfer or gtkwave
 - surf or any web browser
+- yosys (if you want to synthesize the design)
+- nextpnr (if you want to map and place & route the design)
 
 
 *This project was written in a linux enviroment. While the tools may be available on other systems, the makefiles have not been testes under any other OS.*
 
-# Simulation
+## Simulation
 
-## Running the simulation
+### Running the simulation
 
-At the top directory run command `make sim`. The test wil compile and run. This is a self-checking, in the log you will find the test score(PASSED/FAILED) and the match/mismatch transactions count.
+At the top directory run command `make sim`. The test will compile and run. This is a self-checking, in the log you will find the test score(PASSED/FAILED) and the match/mismatch transactions count.
 
 ```
 Running Simulation
@@ -234,7 +243,7 @@ Message summary:
 make[1]: Leaving directory '/home/jota/HDL_Sandbox/git_jg-fossh/wb4_fifo_lib/sim/verilator/wb4_dual_clock_fifo'
 ```
 
-## Waveform viewer
+### Waveform viewer
 
 The default waveform viewer is surfer but it can be changed at the top directory Makefile, at line 34 update the value for `WAVE_TOOL`
 
@@ -242,7 +251,7 @@ Using `make wave` to bring up the waveform viewer
 
 ![alt text](assets/wave.jpg)
 
-## Code Coverage
+### Code Coverage
 
 Code coverage will be collected by verilator during sim. The test bench is configured to log the coverage and generate the html report at the end of simulation. Since it is an html report it can be view with any web browser. 
 
@@ -254,7 +263,7 @@ By browsing the report you can find the lines that were not hit by the test. In 
 
 ![alt text](assets/coverage_missing.jpg)
 
-# To Do
+## To Do
 
 - [ ] Add functional coverage using the FC4SC library
 - [ ] Add randomization via CRAVE

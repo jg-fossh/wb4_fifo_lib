@@ -1,10 +1,15 @@
-
+# Defaults
 PROJECT      = wb4_fifo_lib
 UUT          = wb4_dual_clock_fifo
 FPGA_TECH    = lattice
 TB_FRAMEWORK = uvmsc
 SIM_CMD      = all
 ##################################################################################################
+#Capture user arguments
+ifdef fpga_tech
+FPGA_TECH = $(fpga_tech)
+endif
+
 ifdef framework
 TB_FRAMEWORK = $(framework)
 endif
@@ -100,7 +105,7 @@ syn yosys:
 	@echo
 	@echo "Running Synthesis Tool"
 	@echo
-	$(MAKE) syn -C $(SYN_DIR)/$(SYN_TOOL)/$(FPGA_TECH)/$(TOP) 
+	$(MAKE) all -C $(SYN_DIR)/$(SYN_TOOL)/$(FPGA_TECH)/$(TOP) 
 	xdot -n $(SYN_DIR)/$(SYN_TOOL)/$(FPGA_TECH)/$(TOP)/$(TOP).dot
 
 
@@ -111,7 +116,8 @@ pnr nextpnr nextpnr-ice40:
 	@echo
 	@echo "Running PnR Tool"
 	@echo
-	$(MAKE) pnr -C $(SYN_DIR)/$(SYN_TOOL)/$(FPGA_TECH)/$(TOP) 
+	$(MAKE) map -C $(SYN_DIR)/$(SYN_TOOL)/$(FPGA_TECH)/$(TOP) 
+	$(MAKE) all -C $(PNR_DIR)/$(PNR_TOOL)/$(FPGA_TECH)/$(TOP) 
 
 
 # Generates Timming Reports

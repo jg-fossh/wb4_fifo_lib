@@ -1,0 +1,15 @@
+# Clocks and reset
+set_io i_clk J3
+set_io i_rst P16
+#set_io i_ref_uart_clk J3
+#set_io i_ref_uart_rst P16
+
+# LEDS
+set_io o_ui_led_baud_rate B5
+set_io o_ui_led_operation_mode[0] B4
+set_io o_ui_led_operation_mode[1] A2
+set_io o_ui_led_activity_rx A1
+set_io o_ui_led_activity_tx C5
+#set_io LED6 C4
+#set_io LED7 B3
+#set_io LED8 C3  

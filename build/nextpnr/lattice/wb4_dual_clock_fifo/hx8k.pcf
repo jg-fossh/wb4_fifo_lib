@@ -1,0 +1,5 @@
+# Clocks and reset
+set_io i_wb4_in_sclk J3
+set_io i_wb4_in_srst P16
+# LEDS
+set_io i_wb4_out_srst A2

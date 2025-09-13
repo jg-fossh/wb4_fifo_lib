@@ -1,0 +1,18 @@
+## Modules List
+read_verilog \
+"../../../../sub/generic_sbram/src/generic_sbram.v" \
+"../../../../sub/cdc_lib/src/synchronizers/synchronizer.v" \
+"../../../../sub/cdc_lib/src/async_fifo/rd_ctrl.v" \
+"../../../../sub/cdc_lib/src/async_fifo/wr_ctrl.v" \
+"../../../../sub/cdc_lib/src/async_fifo/wr_ctrl_n2one.v" \
+"../../../../sub/cdc_lib/src/async_fifo/dual_clock_fifo.v" \
+"../../../../sub/cdc_lib/src/async_fifo/dual_clock_fifo_n2one.v" \
+"../../../../src/wb4_dual_clock_fifo_1_to_1.v" \
+"../../../../src/wb4_dual_clock_fifo_N_to_1.v" \
+"../../../../src/wb4_dual_clock_fifo.v"
+
+prep -top wb4_dual_clock_fifo
+## Netlist
+splitnets
+write_json wb4_dual_clock_fifo_syn_netlist.json
+show -prefix wb4_dual_clock_fifo -notitle -nobg -long -colors 2 -width -format dot 
