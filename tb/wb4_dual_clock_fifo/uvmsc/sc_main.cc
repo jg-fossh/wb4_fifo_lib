@@ -29,18 +29,14 @@ Additional Comments:
  
 */
 
-//#include <boost/program_options.hpp>
-//using namespace boost::program_options;
-#include <sys/stat.h>  // mkdir
-//
+#include <sys/stat.h> 
 #include <systemc>
 #include <uvm>
-//
+
 #include <verilated.h>
 #include <verilated_fst_sc.h>
-//
 #include "Vwb4_dual_clock_fifo.h"
-//
+
 #include "../../../sub/uvmsc_reset_generator/src/reset_generator_if.h"
 #include "../../../sub/uvmsc_wb4_uvc/src/wb4_bfm.h"
 #include "../../../sub/uvmsc_wb4_uvc/src/wb4_if.h"
@@ -75,47 +71,47 @@ int sc_main(int argc, char* argv[]) {
   // Create an instance of the reset generator interface.
   reset_generator_if* rst_vif = new reset_generator_if("rst_vif");
   // Create an instance of the WB4 master interface.
-  wb4_if<uint32_t, uint32_t, bool, bool, bool, bool, bool>* wb4_mst_if = 
-    new wb4_if<uint32_t,uint32_t,bool,bool,bool,bool,bool>("wb4_mst_if");
+  wb4_if<uint32_t, uint32_t, bool, bool, bool, bool, bool>* wb4_mst_in_if = 
+    new wb4_if<uint32_t,uint32_t,bool,bool,bool,bool,bool>("wb4_mst_in_if");
     
-  wb4_if<uint32_t, uint32_t, bool, bool, bool, bool, bool>* wb4_csr_if = 
-    new wb4_if<uint32_t,uint32_t,bool,bool,bool,bool,bool>("wb4_csr_if");
-  //wb4_if<>* wb4_csr_if = new wb4_if("wb4_csr_if");
+  wb4_if<uint32_t, uint32_t, bool, bool, bool, bool, bool>* wb4_mst_out_if = 
+    new wb4_if<uint32_t,uint32_t,bool,bool,bool,bool,bool>("wb4_mst_out_if");
 
 
   // Create a clock signal for the simulation.
-  sc_clock top_clk("top_clk", 5, SC_NS, 0.5, 3, SC_NS, true);
-  sc_clock ref_uart_clk("ref_uart_clk", 10, SC_NS, 0.5, 3, SC_NS, true);
+  sc_clock fast_clk("fast_clk", 5, SC_NS, 0.5, 3, SC_NS, true);
+  sc_clock slow_clk("slow_clk", 10, SC_NS, 0.5, 3, SC_NS, true);
   
   //Connect the Agents to the clock and reset signals.
-  rst_vif->clk_i(ref_uart_clk);
-  wb4_mst_if->clk_i(top_clk);
-  wb4_mst_if->rst_i(rst_vif->rst_o);
-  wb4_csr_if->clk_i(ref_uart_clk);
-  wb4_csr_if->rst_i(rst_vif->rst_o);
+  rst_vif->clk_i(slow_clk);
+  //
+  wb4_mst_in_if->clk_i(fast_clk       );
+  wb4_mst_in_if->rst_i(rst_vif->rst_o );
+  wb4_mst_out_if->clk_i(slow_clk      );
+  wb4_mst_out_if->rst_i(rst_vif->rst_o);
+  
   // Connect the Agents to the UUT
   // UART Wishbone Slave Interface
-  uut->i_wb4_in_sclk  (top_clk          );   // WB cycle
-  uut->i_wb4_in_srst  (rst_vif->rst_o   );   // WB strobe
-  uut->i_wb4_in_scyc  (wb4_mst_if->cyc  );   // WB write enable
-  uut->i_wb4_in_sstb  (wb4_mst_if->stb  );   // WB acknowledge
-  uut->o_wb4_in_sack  (wb4_mst_if->ack  );   // WB acknowledge
-  uut->i_wb4_in_sdata (wb4_mst_if->dat_o);   // WB acknowledge
-  uut->o_wb4_in_sstall(wb4_mst_if->stall);   // WB acknowledge
+  uut->i_wb4_in_sclk  (fast_clk            );   // WB cycle
+  uut->i_wb4_in_srst  (rst_vif->rst_o      );   // WB strobe
+  uut->i_wb4_in_scyc  (wb4_mst_in_if->cyc  );   // WB write enable
+  uut->i_wb4_in_sstb  (wb4_mst_in_if->stb  );   // WB acknowledge
+  uut->o_wb4_in_sack  (wb4_mst_in_if->ack  );   // WB acknowledge
+  uut->i_wb4_in_sdata (wb4_mst_in_if->dat_o);   // WB acknowledge
+  uut->o_wb4_in_sstall(wb4_mst_in_if->stall);   // WB acknowledge
   // Control & Status Wishbone 4 Slave Interface
-  uut->i_wb4_out_sclk  (ref_uart_clk     );   // WB cycle
-  uut->i_wb4_out_srst  (rst_vif->rst_o   );   // WB strobe
-  uut->i_wb4_out_scyc  (wb4_csr_if->cyc  );   // WB write enable
-  uut->i_wb4_out_sstb  (wb4_csr_if->stb  );   // WB acknowledge
-  uut->o_wb4_out_sack  (wb4_csr_if->ack  );   // WB acknowledge
-  uut->o_wb4_out_sdata (wb4_csr_if->dat_i);   // WB acknowledge
-  uut->o_wb4_out_sstall(wb4_csr_if->stall);   // WB acknowledge
+  uut->i_wb4_out_sclk  (slow_clk             );   // WB cycle
+  uut->i_wb4_out_srst  (rst_vif->rst_o       );   // WB strobe
+  uut->i_wb4_out_scyc  (wb4_mst_out_if->cyc  );   // WB write enable
+  uut->i_wb4_out_sstb  (wb4_mst_out_if->stb  );   // WB acknowledge
+  uut->o_wb4_out_sack  (wb4_mst_out_if->ack  );   // WB acknowledge
+  uut->o_wb4_out_sdata (wb4_mst_out_if->dat_i);   // WB acknowledge
+  uut->o_wb4_out_sstall(wb4_mst_out_if->stall);   // WB acknowledge
 
   // Add interface to configuration database.
   uvm::uvm_config_db<reset_generator_if*>::set(uvm::uvm_root::get(), "*", "rst_vif", rst_vif);
-  uvm::uvm_config_db<wb4_bfm*>::set(uvm::uvm_root::get(), "*", "wb4_mst_if", wb4_mst_if);
-  uvm::uvm_config_db<wb4_bfm*>::set(uvm::uvm_root::get(), "*", "wb4_csr_if", wb4_csr_if);
-  // uvm::uvm_config_db<wb4_slave_if*>::set(uvm::uvm_root::get(), "*", "slv_vif", slv_vif);
+  uvm::uvm_config_db<wb4_bfm*>::set(uvm::uvm_root::get(), "*", "wb4_mst_in_if", wb4_mst_in_if);
+  uvm::uvm_config_db<wb4_bfm*>::set(uvm::uvm_root::get(), "*", "wb4_mst_out_if", wb4_mst_out_if);
 #if VM_TRACE
   uvm::uvm_config_db<Vwb4_dual_clock_fifo*>::set(uvm::uvm_root::get(), "*", "uut", uut);
 #endif

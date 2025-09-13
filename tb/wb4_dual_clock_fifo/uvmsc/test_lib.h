@@ -64,7 +64,7 @@ public:
     for(int iter = 0; iter < 8; ++iter) {
       write_seq = wb4_wr_request_seq::type_id::create("write_seq");
       write_seq->req->dat_o = iter;
-      write_seq->start(env->wb4_mst_agent->sqr);
+      write_seq->start(env->wb4_mst_in_agent->sqr);
     }
 
     UVM_INFO(get_name()+"::"+__func__, "> Allowing some settling time", uvm::UVM_LOW);
@@ -80,7 +80,7 @@ public:
       read_seq->req->adr      = iter;
       read_seq->req->delay    = 16;
       read_seq->req->rsp_clks = 8;
-      read_seq->start(env->wb4_csr_agent->sqr);
+      read_seq->start(env->wb4_mst_out_agent->sqr);
     }
 
 
@@ -97,7 +97,7 @@ public:
       write_seq = wb4_wr_request_seq::type_id::create("write_seq");
       write_seq->req->delay = 16;
       write_seq->req->dat_o = iter;
-      write_seq->start(env->wb4_mst_agent->sqr);
+      write_seq->start(env->wb4_mst_in_agent->sqr);
     }
     
 
@@ -116,7 +116,7 @@ public:
       read_seq->req->delay    = 16;
       read_seq->req->rsp_clks = 8;
       
-      read_seq->start(env->wb4_csr_agent->sqr);
+      read_seq->start(env->wb4_mst_out_agent->sqr);
     }
     phase.drop_objection(this);
   }

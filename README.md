@@ -36,7 +36,7 @@ At the top directory run command `make sim`. The test will compile and run. This
 Running Simulation
 
 make -C ./sim/verilator/wb4_dual_clock_fifo all
-make[1]: Entering directory '/home/jota/HDL_Sandbox/git_jg-fossh/wb4_fifo_lib/sim/verilator/wb4_dual_clock_fifo'
+make[1]: Entering directory '/ai_gym/MyPage/github_jg_fossh/wb4_fifo_lib/sim/verilator/wb4_dual_clock_fifo'
 
 Cleaning TB...
 
@@ -44,15 +44,15 @@ rm -rf obj_dir logs *.log *.dmp *.vpd core
 
 Verilating...
 
-verilator -DVL_THREADED -LDFLAGS "-lstdc++ -lm -lsystemc -luvm-systemc" -j 4 --x-assign 0 --assert --assert-case --coverage --coverage-underscore --trace-coverage --default-language 1800-2012 --trace-fst --trace-structs --trace-max-array 2048 --trace-threads 2  --threads 4 --build-jobs 4 --timescale-override 1ps/1ps --timing --sc --exe --top-module wb4_dual_clock_fifo ../../../tb/wb4_dual_clock_fifo/uvmsc/sc_main.cc ../../../sub/generic_sbram/src/generic_sbram.v ../../../sub/cdc_lib/src/synchronizers/synchronizer.v ../../../sub/cdc_lib/src/async_fifo/rd_ctrl.v ../../../sub/cdc_lib/src/async_fifo/wr_ctrl.v ../../../sub/cdc_lib/src/async_fifo/wr_ctrl_n2one.v ../../../sub/cdc_lib/src/async_fifo/dual_clock_fifo.v ../../../sub/cdc_lib/src/async_fifo/dual_clock_fifo_n2one.v ../../../src/wb4_dual_clock_fifo_1_to_1.v ../../../src/wb4_dual_clock_fifo_N_to_1.v ../../../src/wb4_dual_clock_fifo.v
+verilator -DVL_THREADED -LDFLAGS "-lstdc++ -lm -lsystemc -luvm-systemc" -j 16 --x-assign 0 --assert --assert-case --coverage --coverage-underscore --trace-coverage --default-language 1800-2012 --trace-fst --trace-structs --trace-max-array 2048 --trace-threads 2  --threads 16 --build-jobs 16 --timescale-override 1ps/1ps --timing --sc --exe --top-module wb4_dual_clock_fifo ../../../tb/wb4_dual_clock_fifo/uvmsc/sc_main.cc ../../../sub/generic_sbram/src/generic_sbram.v ../../../sub/cdc_lib/src/synchronizers/synchronizer.v ../../../sub/cdc_lib/src/async_fifo/rd_ctrl.v ../../../sub/cdc_lib/src/async_fifo/wr_ctrl.v ../../../sub/cdc_lib/src/async_fifo/wr_ctrl_n2one.v ../../../sub/cdc_lib/src/async_fifo/dual_clock_fifo.v ../../../sub/cdc_lib/src/async_fifo/dual_clock_fifo_n2one.v ../../../src/wb4_dual_clock_fifo_1_to_1.v ../../../src/wb4_dual_clock_fifo_N_to_1.v ../../../src/wb4_dual_clock_fifo.v
 - V e r i l a t i o n   R e p o r t: Verilator 5.036 2025-04-27 rev v5.036
-- Verilator: Built from 0.344 MB sources in 11 modules, into 0.537 MB in 30 C++ files needing 0.000 MB
-- Verilator: Walltime 0.046 s (elab=0.002, cvt=0.033, bld=0.000); cpu 0.056 s on 4 threads; alloced 20.633 MB
+- Verilator: Built from 0.344 MB sources in 11 modules, into 0.599 MB in 30 C++ files needing 0.000 MB
+- Verilator: Walltime 0.032 s (elab=0.001, cvt=0.023, bld=0.000); cpu 0.052 s on 16 threads; alloced 46.930 MB
 
 Compiling Test Bench...
 
-make -j4 -C obj_dir -f Vwb4_dual_clock_fifo.mk Vwb4_dual_clock_fifo
-make[2]: Entering directory '/home/jota/HDL_Sandbox/git_jg-fossh/wb4_fifo_lib/sim/verilator/wb4_dual_clock_fifo/obj_dir'
+make -j16 -C obj_dir -f Vwb4_dual_clock_fifo.mk Vwb4_dual_clock_fifo
+make[2]: Entering directory '/ai_gym/MyPage/github_jg_fossh/wb4_fifo_lib/sim/verilator/wb4_dual_clock_fifo/obj_dir'
 g++  -I.  -MMD -I/usr/share/verilator/include -I/usr/share/verilator/include/vltstd -DVM_COVERAGE=1 -DVM_SC=1 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable      -I/usr/include  -Os  -c -o sc_main.o ../../../../tb/wb4_dual_clock_fifo/uvmsc/sc_main.cc
 g++ -Os  -I.  -MMD -I/usr/share/verilator/include -I/usr/share/verilator/include/vltstd -DVM_COVERAGE=1 -DVM_SC=1 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable      -I/usr/include  -c -o verilated.o /usr/share/verilator/include/verilated.cpp
 g++ -Os  -I.  -MMD -I/usr/share/verilator/include -I/usr/share/verilator/include/vltstd -DVM_COVERAGE=1 -DVM_SC=1 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable      -I/usr/include  -c -o verilated_dpi.o /usr/share/verilator/include/verilated_dpi.cpp
@@ -64,7 +64,7 @@ echo "" > Vwb4_dual_clock_fifo__ALL.verilator_deplist.tmp
 g++ -Os  -I.  -MMD -I/usr/share/verilator/include -I/usr/share/verilator/include/vltstd -DVM_COVERAGE=1 -DVM_SC=1 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable      -I/usr/include  -c -o Vwb4_dual_clock_fifo__ALL.o Vwb4_dual_clock_fifo__ALL.cpp
 g++      sc_main.o verilated.o verilated_dpi.o verilated_cov.o verilated_fst_c.o verilated_threads.o Vwb4_dual_clock_fifo__ALL.a   -lstdc++ -lm -lsystemc -luvm-systemc -lz  -pthread -lpthread -latomic  -lsystemc -o Vwb4_dual_clock_fifo
 rm Vwb4_dual_clock_fifo__ALL.verilator_deplist.tmp
-make[2]: Leaving directory '/home/jota/HDL_Sandbox/git_jg-fossh/wb4_fifo_lib/sim/verilator/wb4_dual_clock_fifo/obj_dir'
+make[2]: Leaving directory '/ai_gym/MyPage/github_jg_fossh/wb4_fifo_lib/sim/verilator/wb4_dual_clock_fifo/obj_dir'
 
 Running Sim...
 
@@ -84,8 +84,8 @@ In file: /usr/src/debug/systemc/systemc-2.3.4/src/sysc/kernel/sc_process_handle.
 
 
    Universal Verification Methodology for SystemC (UVM-SystemC)
-              Version: 1.0-beta2  Date: 2018-10-24
-          Copyright (c) 2006 - 2018 by all Contributors
+              Version: 1.0-beta5  Date: 2023-03-15
+          Copyright (c) 2006 - 2023 by all Contributors
             See NOTICE file for all Contributors
                     ALL RIGHTS RESERVED
          Licensed under the Apache License, Version 2.0
@@ -94,8 +94,8 @@ In file: /usr/src/debug/systemc/systemc-2.3.4/src/sysc/kernel/sc_process_handle.
 UVM_INFO @ 0 s: reporter [RNTST] Running test test_fifo_default...
 UVM_INFO ../../../../tb/wb4_dual_clock_fifo/uvmsc/tb_env.h(76) @ 0 s: test_fifo_default.env [env::build_phase] tb_env build phase
 UVM_WARNING @ 0 s: test_fifo_default.env.rst_agent [ACTPASS:] Active or passive mode for agent 'test_fifo_default.env.rst_agent' has not been defined. Default behavior is active.
-UVM_WARNING @ 0 s: test_fifo_default.env.wb4_csr_agent [ACTPASS:] Active or passive mode for agent 'test_fifo_default.env.wb4_csr_agent' has not been defined. Default behavior is active.
-UVM_WARNING @ 0 s: test_fifo_default.env.wb4_mst_agent [ACTPASS:] Active or passive mode for agent 'test_fifo_default.env.wb4_mst_agent' has not been defined. Default behavior is active.
+UVM_WARNING @ 0 s: test_fifo_default.env.wb4_mst_in_agent [ACTPASS:] Active or passive mode for agent 'test_fifo_default.env.wb4_mst_in_agent' has not been defined. Default behavior is active.
+UVM_WARNING @ 0 s: test_fifo_default.env.wb4_mst_out_agent [ACTPASS:] Active or passive mode for agent 'test_fifo_default.env.wb4_mst_out_agent' has not been defined. Default behavior is active.
 UVM_INFO ../../../../tb/wb4_dual_clock_fifo/uvmsc/tb_env.h(117) @ 0 s: test_fifo_default.env [env::connect_phase] in tb_env connect phase
 UVM_INFO ../../../../tb/wb4_dual_clock_fifo/uvmsc/tb_env.h(133) @ 0 s: test_fifo_default.env [env::end_of_elaboration_phase] Enviroment Configuration :
 ----------------------------------------------------------
@@ -108,7 +108,7 @@ object_0               tb_config               -     @144
     LONG_PULSE_RST     SC_NS                   32    0xc8
     is_negated         string                  5     false
     has_pwr_on_rst     string                  4     true
-  wb4_mst_cfg          wb4_config              -     @146
+  wb4_mst_in_cfg       wb4_config              -     @146
     has_checks         string                  5     false
     has_coverage       string                  5     false
     is_async           string                  5     false
@@ -117,12 +117,12 @@ object_0               tb_config               -     @144
     data_unit          wb4_data_unit_e         32    0x8
     data_granularity   wb4_granularity_e       32    0x1
     data_operand_size  wb4_operand_size_e      32    0x8
-  wb4_csr_cfg          wb4_config              -     @147
+  wb4_mst_out_cfg      wb4_config              -     @147
     has_checks         string                  5     false
     has_coverage       string                  5     false
     is_async           string                  5     false
     driving_edge       wb4_clocking_edge_e     32    0x0
-    sampling_edge      wb4_clocking_edge_e     32    0x1
+    sampling_edge      wb4_clocking_edge_e     32    0x0
     data_unit          wb4_data_unit_e         32    0x8
     data_granularity   wb4_granularity_e       32    0x1
     data_operand_size  wb4_operand_size_e      32    0x8
@@ -149,13 +149,13 @@ test_fifo_default          test_fifo_default          -     @090
         arbitration_queue  array                      0     -
         lock_queue         array                      0     -
     wave                   wave_trace                 -     @173
-    wb4_csr_agent          wb4_agent                  -     @152
+    wb4_mst_in_agent       wb4_agent                  -     @150
       drv                  wb4_driver                 -     @186
       mon                  wb4_monitor                -     @188
       sqr                  wb4_sequencer              -     @184
         arbitration_queue  array                      0     -
         lock_queue         array                      0     -
-    wb4_mst_agent          wb4_agent                  -     @150
+    wb4_mst_out_agent      wb4_agent                  -     @152
       drv                  wb4_driver                 -     @193
       mon                  wb4_monitor                -     @195
       sqr                  wb4_sequencer              -     @191
@@ -183,7 +183,7 @@ UVM_INFO ../../../../tb/wb4_dual_clock_fifo/uvmsc/test_base.h(118) @ 10456 ns: t
 ***** TEST SCORE: PASSED *****
 UVM_INFO ../../../../tb/wb4_dual_clock_fifo/uvmsc/test_base.h(127) @ 10456 ns: test_fifo_default [test_fifo_default::report_phase] Coverage Log saved at: logs/coverage.dat
 UVM_INFO ../../../../tb/wb4_dual_clock_fifo/uvmsc/test_base.h(136) @ 10456 ns: test_fifo_default [test_fifo_default] ** Final PHASE**
-UVM_INFO ../../../../src/uvmsc/report/uvm_default_report_server.cpp(666) @ 10456 ns: reporter [UVM/REPORT/SERVER] 
+UVM_INFO ../../../src/uvmsc/report/uvm_default_report_server.cpp(667) @ 10456 ns: reporter [UVM/REPORT/SERVER] 
 --- UVM Report Summary ---
 
 ** Report counts by severity
@@ -218,7 +218,7 @@ GENHTML...
 genhtml logs/coverage.info --output-directory logs/html
 Reading tracefile logs/coverage.info.
 Found 7 entries.
-Found common filename prefix "/home/jota/HDL_Sandbox/git_jg-fossh/wb4_fifo_lib/sim/verilator/wb4_dual_clock_fifo/../../.."
+Found common filename prefix "/ai_gym/MyPage/github_jg_fossh/wb4_fifo_lib/sim/verilator/wb4_dual_clock_fifo/../../.."
 Generating output.
 Processing file ../../../src/wb4_dual_clock_fifo_1_to_1.v
   lines=36 hit=36
@@ -240,7 +240,7 @@ Overall coverage rate:
   functions...: no data found
 Message summary:
   no messages were reported
-make[1]: Leaving directory '/home/jota/HDL_Sandbox/git_jg-fossh/wb4_fifo_lib/sim/verilator/wb4_dual_clock_fifo'
+make[1]: Leaving directory '/ai_gym/MyPage/github_jg_fossh/wb4_fifo_lib/sim/verilator/wb4_dual_clock_fifo'
 ```
 
 ### Waveform viewer

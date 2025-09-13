@@ -43,8 +43,8 @@ public:
 
    // Agent's Configs ------------------------------------
    reset_generator_config* rst_cfg;
-   wb4_config*             wb4_mst_cfg;
-   wb4_config*             wb4_csr_cfg;
+   wb4_config*             wb4_mst_in_cfg;
+   wb4_config*             wb4_mst_out_cfg;
 
 
    UVM_OBJECT_UTILS(tb_config);
@@ -59,35 +59,35 @@ public:
       rst_cfg->LONG_PULSE_RST  = 200;
       rst_cfg->is_negated      = false;
       // WB4 Master Config -----------------------------------------
-      wb4_mst_cfg = wb4_config::type_id::create("wb4_mst_cfg");
-      wb4_mst_cfg->has_checks        = false;
-      wb4_mst_cfg->has_coverage      = false;
-      wb4_mst_cfg->is_async          = false;
-      wb4_mst_cfg->role              = wb4_role_e::WB4_MASTER;
-      wb4_mst_cfg->driving_edge      = wb4_clocking_edge_e::RISING;
-      wb4_mst_cfg->sampling_edge     = wb4_clocking_edge_e::RISING;
-      wb4_mst_cfg->data_unit         = wb4_data_attribute_e::BYTE;
-      wb4_mst_cfg->data_granularity  = wb4_data_attribute_e::BIT;
-      wb4_mst_cfg->data_operand_size = wb4_data_attribute_e::BYTE;
+      wb4_mst_in_cfg = wb4_config::type_id::create("wb4_mst_in_cfg");
+      wb4_mst_in_cfg->has_checks        = false;
+      wb4_mst_in_cfg->has_coverage      = false;
+      wb4_mst_in_cfg->is_async          = false;
+      wb4_mst_in_cfg->role              = wb4_role_e::WB4_MASTER;
+      wb4_mst_in_cfg->driving_edge      = wb4_clocking_edge_e::RISING;
+      wb4_mst_in_cfg->sampling_edge     = wb4_clocking_edge_e::RISING;
+      wb4_mst_in_cfg->data_unit         = wb4_data_attribute_e::BYTE;
+      wb4_mst_in_cfg->data_granularity  = wb4_data_attribute_e::BIT;
+      wb4_mst_in_cfg->data_operand_size = wb4_data_attribute_e::BYTE;
       // WB4 CSR Config -----------------------------------------
-      wb4_csr_cfg = wb4_config::type_id::create("wb4_csr_cfg");
-      wb4_mst_cfg->has_checks        = false;
-      wb4_mst_cfg->has_coverage      = false;
-      wb4_mst_cfg->is_async          = false;
-      wb4_mst_cfg->role              = wb4_role_e::WB4_MASTER;
-      wb4_mst_cfg->driving_edge      = wb4_clocking_edge_e::RISING;
-      wb4_mst_cfg->sampling_edge     = wb4_clocking_edge_e::RISING;
-      wb4_mst_cfg->data_unit         = wb4_data_attribute_e::BYTE;
-      wb4_mst_cfg->data_granularity  = wb4_data_attribute_e::BIT;
-      wb4_mst_cfg->data_operand_size = wb4_data_attribute_e::BYTE;
+      wb4_mst_out_cfg = wb4_config::type_id::create("wb4_mst_out_cfg");
+      wb4_mst_out_cfg->has_checks        = false;
+      wb4_mst_out_cfg->has_coverage      = false;
+      wb4_mst_out_cfg->is_async          = false;
+      wb4_mst_out_cfg->role              = wb4_role_e::WB4_MASTER;
+      wb4_mst_out_cfg->driving_edge      = wb4_clocking_edge_e::RISING;
+      wb4_mst_out_cfg->sampling_edge     = wb4_clocking_edge_e::RISING;
+      wb4_mst_out_cfg->data_unit         = wb4_data_attribute_e::BYTE;
+      wb4_mst_out_cfg->data_granularity  = wb4_data_attribute_e::BIT;
+      wb4_mst_out_cfg->data_operand_size = wb4_data_attribute_e::BYTE;
    }
 
 
    // Print function
    virtual void do_print(const uvm::uvm_printer& printer) const {
-      printer.print_object("rst_cfg",     *rst_cfg    );
-      printer.print_object("wb4_mst_cfg", *wb4_mst_cfg);
-      printer.print_object("wb4_csr_cfg", *wb4_csr_cfg);
+      printer.print_object("rst_cfg", *rst_cfg);
+      printer.print_object("wb4_mst_in_cfg", *wb4_mst_in_cfg);
+      printer.print_object("wb4_mst_out_cfg", *wb4_mst_out_cfg);
    }
    
 };
