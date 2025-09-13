@@ -9,7 +9,7 @@ The main focus of this project is provide and integrated example of `verilator`+
 
 Clone the repo and be sure to pull in the submodules
 ```
-git clone --recurse-submodules git@github.com:jg-fossh/wb4_fifo_lib.git
+git clone --recurse-submodules https://github.com/jg-fossh/wb4_fifo_lib.git
 ```
 
 ## Dependencies 
