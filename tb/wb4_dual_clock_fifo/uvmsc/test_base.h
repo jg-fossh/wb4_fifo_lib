@@ -44,6 +44,7 @@ Additional Comments:
 
 //--------------------------------------------------------------------------------
 // Base Test
+//--------------------------------------------------------------------------------
 class test_base : public uvm::uvm_test {
 public:
 
@@ -93,17 +94,18 @@ public:
 
 
   virtual void reset_phase(uvm::uvm_phase& phase){
-      UVM_INFO(get_name()+"::"+__func__, "** RESET PHASE**", uvm::UVM_NONE);
-      // Drive 'Power On' Reset
-      reset_generator_base_seq* rst_seq;
-      rst_seq = reset_generator_base_seq::type_id::create("rst_seq");
+    UVM_INFO(get_name()+"::"+__func__, "** RESET PHASE**", uvm::UVM_NONE);
+    // Drive 'Power On' Reset
+    reset_generator_base_seq* rst_seq;
+    rst_seq = reset_generator_base_seq::type_id::create("rst_seq");
 
-      UVM_INFO(get_name()+"::"+__func__, "> Executing Power On Reset", uvm::UVM_NONE);
-      phase.raise_objection(this);
+    UVM_INFO(get_name()+"::"+__func__, "> Executing Power On Reset", uvm::UVM_NONE);
+    phase.raise_objection(this);
     sc_core::sc_time drain_time = sc_core::sc_time(150.0, sc_core::SC_NS);
     phase.get_objection()->set_drain_time(this, drain_time);
-      rst_seq->start(env->rst_agent->sqr);
-      phase.drop_objection(this);
+    
+    rst_seq->start(env->rst_agent->sqr);
+    phase.drop_objection(this);
   }
 
   //void check_phase(uvm::uvm_phase& phase){
@@ -133,7 +135,7 @@ public:
 
   void final_phase(uvm::uvm_phase& phase)
   {
-    UVM_INFO(get_type_name(), "** Final PHASE**", uvm::UVM_NONE);
+    UVM_INFO(get_type_name(), "** Final PHASE **", uvm::UVM_NONE);
     delete topo_printer;
   }
 

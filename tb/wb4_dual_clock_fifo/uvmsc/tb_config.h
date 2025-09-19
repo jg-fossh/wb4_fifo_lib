@@ -19,11 +19,11 @@
     permissions and limitations under the License.
 
 --------------------------------------------------------------------------------
-File name      : wb4_agent.h
+File name      : tb_config.h
 Author         : Jose R Garcia (jg-fossh@protonmail.com)
 Project Name   : Wishbone B4 FIFO Library
-Class(es) Name : wb4_agent
-Description    : Master configuration of the test benches, containging the
+Class(es) Name : tb_config
+Description    : Master configuration of the test benches, containing the
                  configuration of all agents, tests and test enviroments.
 
 Additional Comments:
@@ -58,7 +58,7 @@ public:
       rst_cfg->SHORT_PULSE_RST = 33;
       rst_cfg->LONG_PULSE_RST  = 200;
       rst_cfg->is_negated      = false;
-      // WB4 Master Config -----------------------------------------
+      // WB4 IN Config -----------------------------------------
       wb4_mst_in_cfg = wb4_config::type_id::create("wb4_mst_in_cfg");
       wb4_mst_in_cfg->has_checks        = false;
       wb4_mst_in_cfg->has_coverage      = false;
@@ -69,7 +69,7 @@ public:
       wb4_mst_in_cfg->data_unit         = wb4_data_attribute_e::BYTE;
       wb4_mst_in_cfg->data_granularity  = wb4_data_attribute_e::BIT;
       wb4_mst_in_cfg->data_operand_size = wb4_data_attribute_e::BYTE;
-      // WB4 CSR Config -----------------------------------------
+      // WB4 OUT Config -----------------------------------------
       wb4_mst_out_cfg = wb4_config::type_id::create("wb4_mst_out_cfg");
       wb4_mst_out_cfg->has_checks        = false;
       wb4_mst_out_cfg->has_coverage      = false;
@@ -85,8 +85,8 @@ public:
 
    // Print function
    virtual void do_print(const uvm::uvm_printer& printer) const {
-      printer.print_object("rst_cfg", *rst_cfg);
-      printer.print_object("wb4_mst_in_cfg", *wb4_mst_in_cfg);
+      printer.print_object("rst_cfg",         *rst_cfg);
+      printer.print_object("wb4_mst_in_cfg",  *wb4_mst_in_cfg);
       printer.print_object("wb4_mst_out_cfg", *wb4_mst_out_cfg);
    }
    

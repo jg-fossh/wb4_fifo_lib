@@ -39,7 +39,7 @@ Additional Comments:
 #include "predictor.h"
 
 //--------------------------------------------------------------------------------
-//
+// Test Bench Enviroment
 //--------------------------------------------------------------------------------
 class tb_env : public uvm::uvm_env {
 public:
