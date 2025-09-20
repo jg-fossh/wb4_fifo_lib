@@ -128,7 +128,7 @@ module wb4_dual_clock_fifo_1_to_1 #(
     else begin
       if(w_last == 1'b0) begin
         // 
-        r_read_ack <= i_wb4_out_sstb & i_wb4_out_scyc;
+        r_read_ack <= i_wb4_out_sstb;
       end
       else begin
         r_read_ack <= 1'b0;

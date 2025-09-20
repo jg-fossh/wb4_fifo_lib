@@ -33,14 +33,12 @@ module wb4_sync_fifo #(
   input                   i_wb4_in_sstb,   // Write Strobe
   output                  o_wb4_in_sack,   // Write Strobe
   input  [P_DATA_I_MSB:0] i_wb4_in_sdata,  // Write Data
-  output                  o_wb4_in_stgd,   // Empty?
   output                  o_wb4_in_sstall, // Full?
   // Read Interface Signals
   input                   i_wb4_out_scyc,   // Read Strobe
   input                   i_wb4_out_sstb,   // Read Strobe
   output                  o_wb4_out_sack,   // Write Strobe
   output [P_DATA_O_MSB:0] o_wb4_out_sdata,  // Read Data
-  output                  o_wb4_out_stgd,   // Full?
   output                  o_wb4_out_sstall  // Empty?
 );
 
@@ -119,14 +117,12 @@ module wb4_sync_fifo #(
     .i_wb4_in_sstb  (i_wb4_in_sstb  ), // Write Strobe
     .o_wb4_in_sack  (o_wb4_in_sack  ), // Write Acknowledge
     .i_wb4_in_sdata (i_wb4_in_sdata ), // Write Data
-    .o_wb4_in_stgd  (o_wb4_in_stgd  ), // Empty?
     .o_wb4_in_sstall(o_wb4_in_sstall), // Full?
     // Read Interface Signals
     .i_wb4_out_scyc  (i_wb4_out_scyc  ), // Not Abort / Enable
     .i_wb4_out_sstb  (i_wb4_out_sstb  ), // Read Strobe
     .o_wb4_out_sack  (o_wb4_out_sack  ), // Read Acknowledge
     .o_wb4_out_sdata (o_wb4_out_sdata ), // Read Data
-    .o_wb4_out_stgd  (o_wb4_out_stgd  ), // Full?
     .o_wb4_out_sstall(o_wb4_out_sstall)  // Empty?
   );
   end  // one_to_one_fifo_gen
@@ -153,14 +149,12 @@ module wb4_sync_fifo #(
     .i_wb4_in_sstb  (i_wb4_in_sstb  ), // Write Strobe
     .o_wb4_in_sack  (o_wb4_in_sack  ), // Write Acknowledge
     .i_wb4_in_sdata (i_wb4_in_sdata ), // Write Data
-    .o_wb4_in_stgd  (o_wb4_in_stgd  ), // Empty?
     .o_wb4_in_sstall(o_wb4_in_sstall), // Full?
     // Read Interface Signals
     .i_wb4_out_scyc  (i_wb4_out_scyc  ), // Not Abort / Enable
     .i_wb4_out_sstb  (i_wb4_out_sstb  ), // Read Strobe
     .o_wb4_out_sack  (o_wb4_out_sack  ), // Read Acknowledge
     .o_wb4_out_sdata (o_wb4_out_sdata ), // Read Data
-    .o_wb4_out_stgd  (o_wb4_out_stgd  ), // Full?
     .o_wb4_out_sstall(o_wb4_out_sstall)  // Empty?
   );
   end // N_to_one_fifo_gen

@@ -33,14 +33,12 @@ module wb4_sync_fifo_N_to_1 #(
   input                   i_wb4_in_sstb,   // Write Strobe
   output                  o_wb4_in_sack,   // Write Strobe
   input  [P_DATA_I_MSB:0] i_wb4_in_sdata,  // Write Data
-  output                  o_wb4_in_stgd,   // Empty?
   output                  o_wb4_in_sstall, // Full?
   // Read Interface Signals
   input                   i_wb4_out_scyc,   // Read Strobe
   input                   i_wb4_out_sstb,   // Read Strobe
   output                  o_wb4_out_sack,   // Write Strobe
   output [P_DATA_O_MSB:0] o_wb4_out_sdata,  // Read Data
-  output                  o_wb4_out_stgd,   // Full?
   output                  o_wb4_out_sstall  // Empty?
 );
 
@@ -152,7 +150,6 @@ module wb4_sync_fifo_N_to_1 #(
   // 
   assign o_wb4_out_sack = r_read_ack;
   // Memory read-address pointer (okay to use binary to address memory)
-  assign o_wb4_in_stgd    = r_empty;
   assign o_wb4_out_sstall = r_empty;
 
   /////////////////////////////////////////////////////////////////////////////
@@ -181,6 +178,5 @@ module wb4_sync_fifo_N_to_1 #(
   assign o_wb4_in_sack = r_write_ack;
   // Memory read-address pointer (okay to use binary to address memory)
   assign o_wb4_in_sstall = w_full;
-  assign o_wb4_out_stgd  = w_full;
 
 endmodule // wb4_sync_fifo_N_to_1
