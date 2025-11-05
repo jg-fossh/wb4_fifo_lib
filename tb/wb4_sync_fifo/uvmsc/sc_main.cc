@@ -29,12 +29,18 @@ Additional Comments:
  
 */
 
-#include <sys/stat.h> 
+#include <iostream>
+#include <string>
+#include <boost/program_options.hpp>
+//using namespace boost::program_options;
+#include <sys/stat.h>  // mkdir
+//
 #include <systemc>
 #include <uvm>
-
+//
 #include <verilated.h>
 #include <verilated_fst_sc.h>
+//
 #include "Vwb4_sync_fifo.h"
 
 #include "../../../sub/uvmsc_reset_generator/src/reset_generator_if.h"
@@ -52,8 +58,33 @@ using namespace sc_dt;
 // Main function for the SystemC simulation. (The Top of the simulation)
 //--------------------------------------------------------------------------------
 int sc_main(int argc, char* argv[]) {
+  namespace po = boost::program_options;
+  std::string uvmtest_name;
+
+  // Define the supported command-line options
+  po::options_description desc("Allowed options");
+  desc.add_options()
+    ("+uvmtest_name", po::value<std::string>(), "UVM Test Name");
+
+  // Parse the command line
+  po::variables_map vm;
+  po::store(po::parse_command_line(argc, argv, desc), vm);
+  po::notify(vm);
+  
   // Print SystemC version
   std::cout << "SYSTEMC_VERSION: " << SYSTEMC_VERSION << "\n" << std::endl;
+
+  // Print SystemC version
+  std::cout << "SYSTEMC_VERSION: " << SYSTEMC_VERSION << std::endl;
+
+  // Use the string variable
+  if (vm.count("+uvmtest_name")) {
+      uvmtest_name = vm["+uvmtest_name"].as<std::string>();
+      std::cout << "Running UVM Test: " << uvmtest_name << std::endl;
+  } else {
+      uvmtest_name = "test_fifo_default";
+      std::cout << "Running UVM Test: " << uvmtest_name << std::endl;
+  }
 
   // Parse command line arguments
   Verilated::commandArgs(argc, argv);
@@ -106,16 +137,19 @@ int sc_main(int argc, char* argv[]) {
   uut->o_wb4_out_sdata (wb4_mst_out_if->dat_i);   // WB acknowledge
   uut->o_wb4_out_sstall(wb4_mst_out_if->stall);   // WB acknowledge
 
+
+  
   // Add interface to configuration database.
   uvm::uvm_config_db<reset_generator_if*>::set(uvm::uvm_root::get(), "*", "rst_vif", rst_vif);
   uvm::uvm_config_db<wb4_bfm*>::set(uvm::uvm_root::get(), "*", "wb4_mst_in_if", wb4_mst_in_if);
   uvm::uvm_config_db<wb4_bfm*>::set(uvm::uvm_root::get(), "*", "wb4_mst_out_if", wb4_mst_out_if);
+  uvm::uvm_config_db<std::string>::set(uvm::uvm_root::get(), "*", "uvmtest_name", uvmtest_name);
 #if VM_TRACE
   uvm::uvm_config_db<Vwb4_sync_fifo*>::set(uvm::uvm_root::get(), "*", "uut", uut);
 #endif
 
   // Run the test.
-  uvm::run_test("test_fifo_default");
+  uvm::run_test(uvmtest_name);
 
   return 0;
 }

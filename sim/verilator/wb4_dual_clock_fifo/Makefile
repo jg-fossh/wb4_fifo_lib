@@ -28,7 +28,7 @@ THREADS := $(shell expr $(NPROCS))
 
 EXTRA_ARGS += \
 -DVL_THREADED \
--LDFLAGS "-lstdc++ -lm -lsystemc -luvm-systemc" \
+-LDFLAGS "-lstdc++ -lm -lboost_program_options -lsystemc -luvm-systemc" \
 -j $(THREADS)
 
 # Optimize
@@ -54,12 +54,14 @@ VERILATOR_ARGS += $(EXTRA_ARGS) $(VERILATOR_FLAGS)
 
 #################     Verilator Arguments     #################
 
-TB_FRAMEWORK = uvmsc
-
 UUT         = wb4_dual_clock_fifo
 TB_TOP      = tb_top_$(UUT)
 TOP_MODULE ?= $(TB_TOP)
 
+TB_FRAMEWORK = uvmsc
+UVMSC_TESTNAME = test_fifo_one_wr_rd
+UVMSC_TESTLIST = test_fifo_default \
+                 test_fifo_one_wr_rd
 
 UUT_DIR = ../../../src
 TB_DIR  = ../../../tb/$(UUT)/$(TB_FRAMEWORK)
@@ -82,20 +84,38 @@ $(UUT_DIR)/wb4_dual_clock_fifo.v
 TB_MAIN       = $(TB_DIR)/sc_main.cc
 UVMSC_SOURCES = $(TB_MAIN)
 
+ifdef uvmsc_testname
+UVMSC_TESTNAME = $(uvmsc_testname)
+endif
 ######################################################################
 # TOOL
 VERILATOR_COVERAGE = verilator_coverage
+GENHTML = genhtml
 
 # Create annotated source
-VERILATOR_COV_FLAGS += --annotate logs/annotated
+VERILATOR_COV_FLAGS += --annotate $(UVMSC_TESTNAME)/logs/annotated
 # A single coverage hit is considered good enough
+VERILATOR_COV_FLAGS += --annotate-all
 VERILATOR_COV_FLAGS += --annotate-min 1
+VERILATOR_COV_FLAGS += --annotate-points
 # Create LCOV info
-VERILATOR_COV_FLAGS += --write-info logs/coverage.info
+VERILATOR_COV_FLAGS += --write-info $(UVMSC_TESTNAME)/logs/coverage.info
 # Input file from Verilator
-VERILATOR_COV_FLAGS += logs/coverage.dat
+VERILATOR_COV_FLAGS += $(UVMSC_TESTNAME)/logs/coverage.dat
 
-GENHTML = genhtml
+# Merged Report
+VERILATOR_MERGED_COV_FLAGS += --write merged/coverage.dat
+VERILATOR_MERGED_COV_FLAGS += $(foreach test,$(UVMSC_TESTLIST), $(test)/logs/coverage.dat)
+# Create annotated source
+VERILATOR_COV_RPT_FLAGS += --annotate merged/annotated
+# A single coverage hit is considered good enough
+VERILATOR_COV_RPT_FLAGS += --annotate-all
+VERILATOR_COV_RPT_FLAGS += --annotate-min 1
+VERILATOR_COV_RPT_FLAGS += --annotate-points
+# Create LCOV info
+VERILATOR_COV_RPT_FLAGS += --write-info merged/coverage.info
+# Input file from Verilator
+VERILATOR_COV_RPT_FLAGS += merged/coverage.dat
 ######################################################################
 
 #################     Verilator Arguments     #################
@@ -123,16 +143,7 @@ rum_sim:
 	@echo
 	@echo "Running Sim..."
 	@echo
-	obj_dir/V$(UUT)
-
-
-.PHONY: wave
-wave:
-	@echo
-	@echo "Opening Wave..."
-	@echo
-	gtkwave wave.gtkw
-
+	obj_dir/V$(UUT) --+uvmtest_name=$(UVMSC_TESTNAME) | tee $(UVMSC_TESTNAME)/logs/$(UVMSC_TESTNAME).log
 
 
 .PHONY: cov coverage
@@ -140,15 +151,30 @@ cov coverage:
 	@echo
 	@echo "Processing Coverage..."
 	@echo
-	@rm -rf logs/annotated
+	@rm -rf $(UVMSC_TESTNAME)/logs/annotated
 	$(VERILATOR_COVERAGE) $(VERILATOR_COV_FLAGS)
+
 
 .PHONY: genhtml coverage_report cov_rpt
 genhtml coverage_report cov_rpt:
 	@echo
 	@echo "GENHTML... "
 	@echo
-	$(GENHTML) logs/coverage.info --output-directory logs/html
+	$(GENHTML) $(UVMSC_TESTNAME)/logs/coverage.info --output-directory $(UVMSC_TESTNAME)/logs/html
+
+
+merge_cov:
+	clear
+	@echo
+	@echo "Merging Coverage"
+	@echo
+	@rm -rf merged/annotated
+	$(VERILATOR_COVERAGE) $(VERILATOR_MERGED_COV_FLAGS)
+	$(VERILATOR_COVERAGE) $(VERILATOR_COV_RPT_FLAGS)
+	@echo
+	@echo "GENHTML... "
+	@echo
+	$(GENHTML) merged/coverage.info --output-directory  merged/html
 
 
 .PHONY: clean mostlyclean distclean

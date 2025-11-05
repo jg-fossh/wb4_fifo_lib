@@ -60,7 +60,6 @@ public:
   Vwb4_sync_fifo*            uut;
 #endif
 
-
   // Provide implementations of virtual methods such as get_type_name and create
   UVM_COMPONENT_UTILS(tb_env);
 

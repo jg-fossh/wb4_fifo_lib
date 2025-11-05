@@ -53,6 +53,7 @@ public:
   //
   uvm::uvm_table_printer* topo_printer {nullptr};
   bool test_pass;
+  std::string uvmtest_name;
 
 
   UVM_COMPONENT_UTILS(test_base);
@@ -108,13 +109,11 @@ public:
     phase.drop_objection(this);
   }
 
-  //void check_phase(uvm::uvm_phase& phase){
-  //}
-
 
   void report_phase(uvm::uvm_phase& phase) {
     if(env->in_sb->error || env->out_sb->error)
       test_pass = false;
+
     if(test_pass)
     {
       UVM_INFO(get_name()+"::"+__func__, "\n***** TEST SCORE: PASSED *****", uvm::UVM_NONE);
@@ -125,10 +124,13 @@ public:
     }
 
 #if VM_COVERAGE
-    //  Coverage analysis (since test passed)
-    UVM_INFO(get_name()+"::"+__func__, "Coverage Log saved at: logs/coverage.dat", uvm::UVM_NONE);
-    Verilated::mkdir("logs");
-    VerilatedCov::write("logs/coverage.dat");
+    if(!uvm::uvm_config_db<std::string>::get(this, "*", "uvmtest_name", uvmtest_name))
+     UVM_FATAL("NOTST", "Test name not in the config_db: " + get_full_name() + ".uvmtest_name");
+
+    UVM_INFO(get_name()+"::"+__func__, "Coverage Log saved at: "+uvmtest_name+"/logs/coverage.dat", uvm::UVM_NONE);
+    Verilated::mkdir((uvmtest_name+"/").c_str());
+    Verilated::mkdir((uvmtest_name+"/logs").c_str());
+    VerilatedCov::write(uvmtest_name+"/logs/coverage.dat");
 #endif
   }
 
