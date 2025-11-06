@@ -13,7 +13,8 @@ FPGA_TECH      = lattice
 TB_FRAMEWORK   = uvmsc
 UVMSC_TESTNAME = test_fifo_default
 UVMSC_TESTLIST = test_fifo_default \
-                 test_fifo_one_wr_rd
+                 test_fifo_one_wr_rd \
+                 test_fifo_rd_empty
 SIM_CMD        = all # test
 ##################################################################################################
 #Capture user arguments

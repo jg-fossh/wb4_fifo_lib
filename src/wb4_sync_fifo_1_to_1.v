@@ -57,6 +57,9 @@ module wb4_sync_fifo_1_to_1 #(
   reg [L_ADDR_MSB:0] r_read_ptr;
   reg                r_empty;
   reg                r_read_ack;
+  reg [P_DATA_MSB:0] r_read_data;
+  wire [P_DATA_MSB:0] w_read_data;
+
   //
   wire w_ce = !i_rst;
   // Write Controls Asynch Logic
@@ -117,10 +120,12 @@ module wb4_sync_fifo_1_to_1 #(
     if (i_rst == 1'b1) begin
       r_read_ptr <= 'h0;
       r_empty    <= 1'b1;
+      r_read_data <= 0;
     end
     else begin
-      r_read_ptr <= r_read_ptr + {{L_PTR_PAD{1'b0}}, {(w_re & ~w_empty)}}; //
-      r_empty    <= w_empty;
+      r_read_ptr  <= r_read_ptr + {{L_PTR_PAD{1'b0}}, {(w_re & ~w_empty)}}; //
+      r_empty     <= w_empty;
+      r_read_data <= w_read_data;
     end
   end // read_ptr_proc
 
@@ -146,6 +151,7 @@ module wb4_sync_fifo_1_to_1 #(
   assign o_wb4_out_sack = r_read_ack;
   // Memory read-address pointer (okay to use binary to address memory)
   assign o_wb4_out_sstall = r_empty;
+  assign o_wb4_out_sdata  = r_read_data;
 
   generate
     if (P_USE_BRAM == 1) begin: bram_mem_gen
@@ -169,7 +175,7 @@ module wb4_sync_fifo_1_to_1 #(
         .i_we   (w_we           ),
         .i_mask (0              ), // 0=writes, 1=masks
         .i_wdata(i_wb4_in_sdata ),
-        .o_rdata(o_wb4_out_sdata)
+        .o_rdata(w_read_data    )
       );
     end // bram_mem_gen
   endgenerate
