@@ -8,13 +8,14 @@
 #   
 #################################################################################
 PROJECT        = wb4_fifo_lib
-UUT            = wb4_sync_fifo
+UUT            = wb4_dual_clock_fifo
 FPGA_TECH      = lattice
 TB_FRAMEWORK   = uvmsc
 UVMSC_TESTNAME = test_fifo_default
 UVMSC_TESTLIST = test_fifo_default \
                  test_fifo_one_wr_rd \
-                 test_fifo_rd_empty
+                 test_fifo_rd_empty \
+                 test_fifo_random
 SIM_CMD        = all # test
 ##################################################################################################
 #Capture user arguments
